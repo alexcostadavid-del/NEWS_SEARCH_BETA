@@ -1,0 +1,22 @@
+News summary generated: 2025-12-23T11:43:53.586494
+
+1. Microsoft to Replace All C/C++ Code With Rust by 2030
+   Source: Thurrott.com
+   Date: 16 hours ago
+   Link: https://www.thurrott.com/dev/330980/microsoft-to-replace-all-c-c-code-with-rust-by-2030
+   Snippet: Microsoft is taking an impressive step in modernizing its biggest codebases and will eliminate all C/C++ code by the end of the decade.
+   Relevance score: 31.00
+
+2. "In 6 Months, Everything Changes": A Microsoft Executive Describes What Artificial Intelligence Will Really Look Like in 6 Years
+   Source: 3DVF
+   Date: 1 day ago
+   Link: https://3dvf.com/en/in-6-months-everything-changes-a-microsoft-executive-describes-what-artificial-intelligence-will-really-look-like-in-6-years/
+   Snippet: Six months to upheaval, six years to the new normal, says a Microsoft executive. If AI stops assisting and starts deciding, who keeps the...
+   Relevance score: 31.00
+
+3. The CEO of Microsoft AI says AI chatbots are a powerful way for humans to offload emotions and 'detoxify ourselves'
+   Source: Business Insider
+   Date: 21 hours ago
+   Link: https://www.businessinsider.com/microsoft-ai-ceo-ai-chatbots-help-humans-detoxify-ourselves-2025-12
+   Snippet: Mustafa Suleyman, Microsoft AI's CEO, has described using AI for guidance on life decisions as "something that the world needs."
+   Relevance score: 31.00
