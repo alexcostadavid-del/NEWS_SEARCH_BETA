@@ -61,6 +61,53 @@ def fetch_news(company, api_key, page=1, page_size=10):
     return data.get("news_results", [])
 
 
+def fetch_news_paginated(company, api_key, limit=10, page_size=20, max_pages=5, sleep_between=0.1, progress_callback=None):
+    """Fetch up to `limit` news articles by paging through SerpApi results.
+
+    - Deduplicates by link/url
+    - Stops early if SerpApi returns fewer than page_size results
+    - If `progress_callback` is provided, it will be called as
+      progress_callback(page_number, total_results_collected)
+    """
+    results = []
+    seen_links = set()
+    page = 1
+    # adapt max_pages so we fetch enough when limit > page_size
+    max_pages = max_pages or (math.ceil(limit / page_size) + 2)
+    while len(results) < limit and page <= max_pages:
+        try:
+            batch = fetch_news(company, api_key, page=page, page_size=page_size)
+        except Exception:
+            break
+        if not batch:
+            # still call progress callback to indicate completion of this page
+            if progress_callback:
+                progress_callback(page, len(results))
+            break
+        for a in batch:
+            link = a.get("link") or a.get("url")
+            if link and link in seen_links:
+                continue
+            if link:
+                seen_links.add(link)
+            results.append(a)
+            if len(results) >= limit:
+                break
+        # report progress after processing each page
+        if progress_callback:
+            try:
+                progress_callback(page, len(results))
+            except Exception:
+                pass
+        # If we got less than a full page, no more results likely
+        if len(batch) < page_size:
+            break
+        page += 1
+        if sleep_between:
+            time.sleep(sleep_between)
+    return results
+
+
 def article_relevance_score(article, company):
     """Compute a simple relevance score for sorting:
     - frequency of company tokens in title + snippet (weighted)
@@ -175,7 +222,8 @@ def main():
             return
 
     try:
-        articles = fetch_news(company, SERPAPI_KEY, page=1, page_size=min(50, limit*2))
+        # use paginated fetch to attempt to gather the requested number of articles
+        articles = fetch_news_paginated(company, SERPAPI_KEY, limit=limit, page_size=min(50, max(10, limit)), max_pages=6)
     except requests.HTTPError as e:
         print(f"HTTP error fetching news: {e}")
         return
